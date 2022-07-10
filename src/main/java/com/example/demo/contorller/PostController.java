@@ -2,7 +2,9 @@ package com.example.demo.contorller;
 
 import com.example.demo.Repo.PostRepo;
 import com.example.demo.models.Post;
+import com.example.demo.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +17,7 @@ import java.util.Optional;
 
 @Controller
 public class PostController {
+    int i;
     @Autowired
     private PostRepo postRepo;
 
@@ -30,8 +33,12 @@ public class PostController {
         return "post-img-add";
     }
     @PostMapping("/post/add")
-    public String postAddpost(@RequestParam String title, @RequestParam String anonce, @RequestParam String fulltext, Model model){
-        Post post = new Post(title, anonce, fulltext);
+    public String postAddpost(
+                            @AuthenticationPrincipal User user,
+                            @RequestParam String title,
+                            @RequestParam String anonce,
+                            @RequestParam String fulltext, Model model){
+        Post post = new Post(title, anonce, fulltext, user);
         postRepo.save(post);
         return "redirect:/post";
     }
@@ -44,6 +51,9 @@ public class PostController {
         ArrayList<Post> res = new ArrayList<>();
         post.ifPresent(res::add);
         model.addAttribute("post", res);
+        Post post1 = postRepo.findById(id).orElseThrow();
+        post1.setViews(post1.getViews()+1);
+        postRepo.save(post1);
         return "post-det";
     }
     @GetMapping("/post/{id}/edit")

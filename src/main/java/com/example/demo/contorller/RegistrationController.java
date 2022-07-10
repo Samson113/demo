@@ -15,17 +15,21 @@ import java.util.Collections;
 public class RegistrationController {
     @Autowired
     private UserRepo userRepo;
+
     @GetMapping("/registration")
-    public String regist(){
+    public String registration(){
         return "registration";
     }
+
     @PostMapping("/registration")
     public String addUser(User user, Model model){
         User userFromDb = userRepo.findByUsername(user.getUsername());
+
         if(userFromDb != null){
             model.addAttribute("message", "User exist");
             return "registration";
         }
+
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
         userRepo.save(user);

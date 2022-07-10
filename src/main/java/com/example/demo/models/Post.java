@@ -1,17 +1,30 @@
 package com.example.demo.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private String title, anonce, fulltext, image;
     private int views;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User author;
+
+    public User getAuthor() {
+        return author;
+    }
+    public String getAuthorName(){
+        return author != null ? author.getUsername() : "<none>";
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
 
     public Long getId() {
         return id;
@@ -64,7 +77,8 @@ public class Post {
     public Post() {
     }
 
-    public Post(String title, String anonce, String fulltext) {
+    public Post(String title, String anonce, String fulltext, User user) {
+        this.author = user;
         this.title = title;
         this.anonce = anonce;
         this.fulltext = fulltext;

@@ -21,5 +21,9 @@ public class MainController {
         model.addAttribute("title", "Main");
         return "home";
     }
+    @GetMapping("/FAQs")
+    public String users(Model model){
+        return "redirect:/user";
+    }
 
 }
