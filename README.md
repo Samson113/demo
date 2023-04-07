@@ -1,6 +1,6 @@
 spring_profiles_active=billboard
-PROD_DB_HOST=containers-us-west-208.railway.app
-PROD_DB_PORT=6186
+PROD_DB_HOST=containers-us-west-113.railway.app
+PROD_DB_PORT=7181
 PROD_DB_NAME=project-billboard
-PROD_DB_PASSWORD=1iuAWDCSq4zUUjdKE1cs
+PROD_DB_PASSWORD=Y7JQ3MO9ONKUCuwqssLO
 PROD_DB_USERNAME=postgres
